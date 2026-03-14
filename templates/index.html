@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>
+            CV Analyser
+        </title>
+    
+    </head>
+    <body>
+        <h1>CV Analyser</h1>
+        <input type = "file" id= "cvInput" accept = ".pdf" />
+        <label >Job Description</label>
+        <textarea id = "jobDescription"></textarea>
+        <button onclick="analyse()">Analyse</button>
+        <p id = "loading" style = "display:none">Analysing your CV,please wait...</p>
+        <div id="results" style="display:none">
+            <div id = "jobMatchSection" style = "display:none">
+                <h3> Job Match Score</h3>
+                <p><span id = "jobMatch"></span>/100</p>
+
+            </div>
+
+           
+            <h2>Score: <span id="score"></span>/100</h2>
+            <h3>Summary</h3>
+            <p id="summary"></p>
+            <h3>Strengths</h3>
+            <ul id="strengths"></ul>
+            <h3>Improvements</h3>
+            <ul id="improvements"></ul>
+        </div>
+        <script>
+            async function analyse(){
+                const file = document.getElementById("cvInput").files[0]
+                if(!file){
+                    alert("Please select a pdf first");
+                    return;
+                }
+               
+                const formData =  new FormData();
+
+                formData.append("cv",file);
+                const text = document.getElementById("jobDescription").value
+                formData.append("job_description",text);
+                document.getElementById("loading").style.display = "block";
+                const response = await fetch("/analyse",{
+                    method : "POST",
+                    body : formData
+                });
+                document.getElementById("loading").style.display = "none";
+                const result = await response.json();
+                
+
+                document.getElementById("score").textContent =  result.score;
+                document.getElementById("summary").textContent = result.summary;
+                if(result.job_match){
+                    document.getElementById("jobMatch").textContent = result.job_match;
+                    document.getElementById("jobMatchSection").style.display = "block";
+                }
+
+                const strengthsList = document.getElementById("strengths");
+                strengthsList.innerHTML = "";
+                for(const s of result.strengths){
+                    strengthsList.innerHTML += `<li>${s}</li>`
+                }
+                const improvementsList = document.getElementById("improvements");
+                improvementsList.innerHTML = "";
+                for(const i of result.improvements){
+                    improvementsList.innerHTML += `<li>${i}</li>`
+                }
+                document.getElementById("results").style.display ="block";
+            }
+        </script>
+        
+    </body>
+</html>
