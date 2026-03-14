@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,jsonify
+from
 import fitz
 from openai import OpenAI
 import json
@@ -26,6 +27,7 @@ def analyse():
         "summary": "summary here",
         "strengths": ["strength 1", "strength 2"],
         "improvements": ["improvement 1", "improvement 2"]
+        "job_match" : null
     }}
     {job_section}
 
