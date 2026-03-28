@@ -1,12 +1,14 @@
 from flask import Flask,render_template,request,jsonify
-from
+from dotenv import load_dotenv
+import os
+load_dotenv()
 import fitz
 from openai import OpenAI
 import json
 app =  Flask(__name__)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 @app.route("/")
 def home():
@@ -26,7 +28,7 @@ def analyse():
         "score": 85,
         "summary": "summary here",
         "strengths": ["strength 1", "strength 2"],
-        "improvements": ["improvement 1", "improvement 2"]
+        "improvements": ["improvement 1", "improvement 2"],
         "job_match" : null
     }}
     {job_section}
