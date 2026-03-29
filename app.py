@@ -38,7 +38,7 @@ def analyse():
         {text}
         """
         response = client.chat.completions.create(
-            model="openai/gpt-3.5-turbo",
+            model="stepfun/step-3.5-flash:free",
             messages=[{"role": "user","content":prompt}]
         )
         raw = response.choices[0].message.content
