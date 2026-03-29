@@ -37,7 +37,7 @@ def analyse():
     {text}
     """
     response = client.chat.completions.create(
-        model = "google/gemma-3-4b-it:free",
+       model = "meta-llama/llama-2-7b-chat:free",
         messages=[{"role": "user","content":prompt}]
     )
     raw = response.choices[0].message.content
