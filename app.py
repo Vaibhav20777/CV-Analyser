@@ -38,7 +38,7 @@ def analyse():
         {text}
         """
         response = client.chat.completions.create(
-            model="meta-llama/llama-2-7b-chat:free",
+            model="openai/gpt-3.5-turbo",
             messages=[{"role": "user","content":prompt}]
         )
         raw = response.choices[0].message.content
